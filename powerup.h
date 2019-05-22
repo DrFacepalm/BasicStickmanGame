@@ -7,6 +7,7 @@
 #include "coordinate.h"
 
 class Powerup : public CompositeEntity {
+    // comment
 public:
     Powerup(Coordinate *position, double width, double height, double velocity, std::string name);
     Powerup(Coordinate *position, double velocity, std::string name);
