@@ -12,12 +12,19 @@ struct ObstacleConfig {
     int colour_blue;
 };
 
+struct PowerupConfig {
+    double offset_x;
+    double position_y;
+    int type;
+};
+
 class Configuration {
 public:
     virtual ~Configuration() = default;
     virtual unsigned int getWorldWidth() = 0;
     virtual unsigned int getWorldHeight() = 0;
     virtual std::vector<ObstacleConfig*> getObstacleData() = 0;
+
 
 protected:
     virtual void setupConfig() = 0;

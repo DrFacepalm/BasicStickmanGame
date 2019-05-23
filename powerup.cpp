@@ -2,12 +2,12 @@
 
 Powerup::Powerup(Coordinate *position, double width, double height, double velocity, std::string name)
     : CompositeEntity(position, name),
-      image(image),
       collider(RectCollider(new Coordinate(position->getXCoordinate() - width/2.0, position->getYCoordinate() - height/2.0, position->getFrameHeight(), position->getFrameWidth()),
                             new Coordinate(position->getXCoordinate() + width/2.0, position->getYCoordinate() + height/2.0, position->getFrameHeight(), position->getFrameWidth()))),
       velocity(velocity),
       dist_travelled(0),
-      is_moving(true)
+      is_moving(true),
+      is_collected(false)
 {
     if (width > 0) {
         this->width = width;
@@ -30,7 +30,8 @@ Powerup::Powerup(Coordinate *position, double velocity, std::string name)
                             new Coordinate(position->getXCoordinate() + width/2.0, position->getYCoordinate() + height/2.0, position->getFrameHeight(), position->getFrameWidth()))),
       velocity(velocity),
       dist_travelled(0),
-      is_moving(true)
+      is_moving(true),
+      is_collected(false)
 {
     this->width = 20;
     this->height = 20;
@@ -58,10 +59,10 @@ void Powerup::update(bool paused, double time_since_last_frame) {
 
 void Powerup::render(QPainter &painter) {
 
-    if (getPosition() != nullptr) {
+    if (getPosition() != nullptr && !is_collected) {
         double x = this->getPosition()->getQtRenderingXCoordinate();
         double y = this->getPosition()->getQtRenderingYCoordinate();
-        painter.drawPixmap(x - width/2.0, y - height/2.0, width, height, image)
+        painter.drawPixmap(x - width/2.0, y - height/2.0, width, height, image);
     }
 
     renderChildren(painter);

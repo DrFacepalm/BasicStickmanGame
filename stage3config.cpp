@@ -2,9 +2,10 @@
 
 Stage3Config::Stage3Config(Config &config) :
     config(config),
-    m_levelData(std::vector<std::vector<ObstacleConfig *>*>())
+    level_obstacle_data(std::vector<std::vector<ObstacleConfig *>*>())
 {
     setupConfig();
+    current_level = 0;
 }
 
 Stage3Config::~Stage3Config() {
@@ -20,7 +21,7 @@ unsigned int Stage3Config::getWorldHeight() {
 }
 
 std::vector<ObstacleConfig *> Stage3Config::getObstacleData() {
-    return *m_levelData.at(0);
+    return *level_obstacle_data.at(current_level);
 }
 
 
@@ -52,7 +53,7 @@ void Stage3Config::setupConfig() {
                 std::vector<ObstacleConfig *> *level_obstacles = new std::vector<ObstacleConfig *>();
 
                 // add vector to levelData
-                m_levelData.push_back(level_obstacles);
+                level_obstacle_data.push_back(level_obstacles);
 
                 // Element should have format: 50,50,400,0,255,0,0|50,50,400,0,255,0,0 ...
                 QStringList obstacles = element.split("|", QString::SkipEmptyParts);
@@ -128,6 +129,20 @@ void Stage3Config::setupConfig() {
                          }
                      }
                 }
+            } else if (split_line.first().startsWith("Powerup")) {
+                // MAke a new vector for current line of powerups
+                std::vector<PowerupConfig *> *level_powerups = new std::vector<PowerupConfig *>();
+
+                // Add vector to level_powerup_data
+                level_powerup_data.push_back(level_powerups);
+
+                // Elements should have config <xpos>,<y_position>,<type>
+                QStringList powerups = element.split("|", QString::SkipEmptyParts);
+
+                // For each thing in the elemtn, make powerup
+                for (int i = 0; i < powerups.size(); i++) {
+
+                }
             }
 
 
@@ -141,9 +156,14 @@ void Stage3Config::setupConfig() {
 }
 
 std::vector<std::vector<ObstacleConfig *> *> Stage3Config::getAllLevelObstacleData() {
-    return m_levelData;
+    return level_obstacle_data;
 }
 
-std::vector<ObstacleConfig *> *Stage3Config::getLevelObstacle(int level) {
-    return m_levelData.at(level - 1);
+std::vector<ObstacleConfig *> Stage3Config::getLevelObstacle(int level) {
+    current_level = level;
+    return getObstacleData();
+}
+
+void Stage3Config::setCurrentLevel(int level) {
+    current_level = level;
 }

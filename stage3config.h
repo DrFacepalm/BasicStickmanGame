@@ -29,7 +29,10 @@ public:
     std::vector<std::vector<ObstacleConfig *> *> getAllLevelObstacleData();
 
     // Gets the obstacle data for a certain level.
-    std::vector<ObstacleConfig *> *getLevelObstacle(int level);
+    std::vector<ObstacleConfig *> getLevelObstacle(int level);
+
+    // sets current level
+    void setCurrentLevel(int level);
 
 protected:
     // Actually read stuff
@@ -37,5 +40,7 @@ protected:
 
 private:
     Config &config;
-    std::vector<std::vector<ObstacleConfig *> *> m_levelData;
+    std::vector<std::vector<ObstacleConfig *> *> level_obstacle_data;
+    std::vector<std::vector<PowerupConfig *> *> level_powerup_data;
+    int current_level;
 };

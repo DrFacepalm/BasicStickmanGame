@@ -20,6 +20,9 @@ public:
 
     bool isMoving() { return is_moving; }
 
+    void set_isCollected(bool val) { is_collected = val; }
+    bool isCollected() { return is_collected; }
+
 private:
     QPixmap image;
     RectCollider collider;
@@ -28,4 +31,5 @@ private:
     double velocity;
     double dist_travelled;
     bool is_moving;
+    bool is_collected;
 };

@@ -14,11 +14,15 @@ public:
     virtual unsigned int getWorldHeight() override;
     virtual std::vector<ObstacleConfig*> getObstacleData() override;
 
+    //////// STAGE3TESTING ///////////////
+    virtual std::vector<PowerupConfig *> getPowerupData();
+
 protected:
     virtual void setupConfig() override;
 
 private:
     Config& config;
     std::vector<ObstacleConfig*> obstacle_data;
+    std::vector<PowerupConfig*> powerup_data;
 };
 

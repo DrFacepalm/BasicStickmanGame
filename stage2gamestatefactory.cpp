@@ -8,6 +8,10 @@
 #include <vector>
 #include <sstream>
 
+////// STAGE 3 TESTING///
+#include "powerup.h"
+////////////////////////////
+
 GameState* Stage2GameStateFactory::createGameState() {
     GameState* state = new GameState();
 
@@ -52,7 +56,18 @@ GameState* Stage2GameStateFactory::createGameState() {
     //////////////////////////////////////////////////////////////////////////
     // STAGE 3 TESTING STUFF
     // Create powerups
-
+    std::vector<PowerupConfig *> powerup_data = config.getPowerupData();
+    previous_x = world_width;
+    int count2 = 0;
+    for (auto *powerupConfig : powerup_data) {
+        previous_x += powerupConfig->offset_x;
+        std::stringstream name;
+        name << "powerup_" << count2;
+        Coordinate *obs_pos = new Coordinate(previous_x, powerupConfig->position_y, world_height, world_width);
+        Powerup *pow = new Powerup(obs_pos, -Config::config()->getStickman()->getVelocity(), name.str());
+        root->addChild(pow);
+        count2++;
+    }
 
     // Create entity tree
     state->setRootEntity(root);

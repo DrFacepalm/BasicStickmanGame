@@ -32,6 +32,12 @@ std::vector<ObstacleConfig*> ExtendedConfig::getObstacleData() {
     return obstacle_data;
 }
 
+
+// STAGE 3 TESTING
+std::vector<PowerupConfig *> ExtendedConfig::getPowerupData() {
+    return powerup_data;
+}
+
 void ExtendedConfig::setupConfig() {
     QFile config_file(":config/config.txt");
 
@@ -123,6 +129,45 @@ void ExtendedConfig::setupConfig() {
                     }
                 }
             }
+            /////////////////////////STAGE 3 TEST//////////////////////////////////////
+            else if (split_line.first().startsWith("Powerup")) {
+                // Powerup in cofig should have <offset>,<y_pos>,<type>
+                QStringList powerups = element.split("|", QString::SkipEmptyParts);
+
+                // For each thing in element, check overlap, make powerup
+                for (int i = 0; i < powerups.size(); i++) {
+                    PowerupConfig *powerup_config = new PowerupConfig();
+                    QStringList powerup_fields = powerups.at(i).split(",", QString::SkipEmptyParts);
+                    if (powerup_fields.size() != 3) {
+                        std::cerr << "Invalid obstacle data at index " << i << std::endl;
+                        continue;
+                    } else {
+                        try {
+                            double offset = powerup_fields.at(0).toDouble();
+                            double y_pos = powerup_fields.at(1).toDouble();
+                            int type = powerup_fields.at(2).toDouble();
+
+                            // Check it doesnt overlap
+                            // overlap check later...
+
+                            // Make powerupconfig
+                            powerup_config->offset_x = offset;
+                            powerup_config->position_y = y_pos;
+                            powerup_config->type = type;
+
+                            powerup_data.push_back(powerup_config);
+                        } catch (const std::exception& e) {
+                            std::cerr << "Invalid powerup data at index " << i << std::endl;
+                            continue;
+                        }
+                    }
+
+                }
+
+                // Check that the powerup doesnt collide with any obstacle
+
+            }
+            ////////////////////////STAGE 3 TEST////////////////////////////////
 
         }
 
