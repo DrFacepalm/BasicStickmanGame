@@ -40,6 +40,10 @@ Powerup::Powerup(Coordinate *position, double velocity, std::string name)
 }
 
 void Powerup::update(bool paused, double time_since_last_frame) {
+    // update velocity each time
+    velocity =  -Config::config()->getStickman()->getVelocity();
+
+
     if (!paused) {
         is_moving = true;
 

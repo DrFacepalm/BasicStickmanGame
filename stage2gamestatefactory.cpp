@@ -63,6 +63,7 @@ GameState* Stage2GameStateFactory::createGameState() {
         previous_x += powerupConfig->offset_x;
         std::stringstream name;
         name << "powerup_" << count2;
+
         Coordinate *obs_pos = new Coordinate(previous_x, powerupConfig->position_y, world_height, world_width);
         Powerup *pow = new Powerup(obs_pos, -Config::config()->getStickman()->getVelocity(), name.str());
         root->addChild(pow);

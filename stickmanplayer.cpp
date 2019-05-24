@@ -47,6 +47,12 @@ void StickmanPlayer::update(bool paused, double time_since_last_frame) {
     // Physics updates
     physics_body.apply(time_since_last_frame/1000.0);
 
+
+    // STAGE 3 TESTING //
+    if (paused) {
+        Config::config()->getStickman()->changeVelocity(0);
+    }
+
     checkGroundCollision();
 
     // Keep position coordinate and collider coordinates in sync with the Config

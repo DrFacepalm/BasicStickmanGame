@@ -27,6 +27,9 @@ public:
 
     // Gets a list of all the level data.
     std::vector<std::vector<ObstacleConfig *> *> getAllLevelObstacleData();
+    std::vector<std::vector<PowerupConfig *> *> getAllLevelPowerupData();
+
+
 
     // Gets the obstacle data for a certain level.
     std::vector<ObstacleConfig *> getLevelObstacle(int level);

@@ -21,11 +21,11 @@ public:
     GameState();
     virtual ~GameState();
 
-    Entity* getRootEntity();
+    virtual Entity* getRootEntity();
     void setRootEntity(Entity* root);
 
     Entity* findEntityByName(const std::string& name);
-    std::vector<Entity*> findEntitiesByNameContains(const std::string& string);
+    virtual std::vector<Entity*> findEntitiesByNameContains(const std::string& string);
 
     Background* getBackground();
     void setBackground(Background* bg);
@@ -33,22 +33,25 @@ public:
     Player* getPlayer();
     void setPlayer(Player* player);
 
-    void update(bool paused);
+    virtual void update(bool paused);
     bool getPlayerColliding() {return player_colliding; }
 
     ///// STAGE3TESTING /////
-    void checkPowerupCollision();
+    virtual void checkPowerupCollision();
+    void setPlayerMoving(bool moving) { player_moving = moving; }
+    bool playerMoving() { return player_moving; }
     /////////////////////////
 protected:
-    void checkCollisions();
-    Entity* findEntityByNameRecursive(const std::string& name, Entity* root);
-    void findEntitiesByNameContainsRecursive(const std::string& string, Entity* root, std::vector<Entity*>& list);
+    virtual void checkCollisions();
+    virtual Entity* findEntityByNameRecursive(const std::string& name, Entity* root);
+    virtual void findEntitiesByNameContainsRecursive(const std::string& string, Entity* root, std::vector<Entity*>& list);
+    bool player_colliding;
+    bool powerup_collected;
 
 private:
     Player* player;
     Background* background;
     Entity* root_entity;
-    bool player_colliding;
-    bool powerup_collected;
+    bool player_moving;
 };
 

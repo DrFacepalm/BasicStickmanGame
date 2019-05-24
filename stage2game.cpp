@@ -4,7 +4,9 @@
 #include "player.h"
 
 Stage2Game::Stage2Game(GameState* state)
-    : state(state) {}
+    : state(state) {
+std::cout << "stage2 construct" << std::endl;
+}
 
 Stage2Game::~Stage2Game()
 {
@@ -12,6 +14,7 @@ Stage2Game::~Stage2Game()
 }
 
 void Stage2Game::render(QPainter &painter) {
+    std::cout << "stage2 render?" << std::endl;
 
     if (state->getBackground() != nullptr) {
         state->getBackground()->render(painter, paused || state->getPlayerColliding());
@@ -23,6 +26,7 @@ void Stage2Game::render(QPainter &painter) {
 
     // Render all entities stored in the game state
     state->getRootEntity()->render(painter);
+    std::cout << "stage2 render getroot entity works" << std::endl;
 }
 
 void Stage2Game::keyPressEvent(QKeyEvent *event) {

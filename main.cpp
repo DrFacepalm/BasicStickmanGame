@@ -36,6 +36,7 @@ int main(int argc, char *argv[]) {
     StartDialog start_dialog(factory);
     start_dialog.setWindowTitle("Main Menu");
     start_dialog.show();
+     std::cout << "main 1" << std::endl;
 
     auto exit_code = a.exec();
     return exit_code;

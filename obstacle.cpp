@@ -27,6 +27,8 @@ Obstacle::Obstacle(Coordinate* position, double width, double height, double vel
 }
 
 void Obstacle::update(bool paused, double time_since_last_frame) {
+    // update velocity each time
+    velocity =  -Config::config()->getStickman()->getVelocity();
 
     if (!paused) {
         is_moving = true;
@@ -67,4 +69,6 @@ void Obstacle::render(QPainter &painter) {
     }
 
     renderChildren(painter);
+
+
 }

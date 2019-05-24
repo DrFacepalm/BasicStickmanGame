@@ -2,7 +2,8 @@
 
 Stage3Config::Stage3Config(Config &config) :
     config(config),
-    level_obstacle_data(std::vector<std::vector<ObstacleConfig *>*>())
+    level_obstacle_data(std::vector<std::vector<ObstacleConfig *>*>()),
+    level_powerup_data(std::vector<std::vector<PowerupConfig *> *>())
 {
     setupConfig();
     current_level = 0;
@@ -49,6 +50,7 @@ void Stage3Config::setupConfig() {
                 std::cerr << "Stage 3 should not have any Obstacles field in the config" << std::endl;
                 continue;
             } else if (split_line.first().startsWith("Level")) {
+                std::cout << "im gay" << std::endl;
                 // make new vector
                 std::vector<ObstacleConfig *> *level_obstacles = new std::vector<ObstacleConfig *>();
 
@@ -141,7 +143,31 @@ void Stage3Config::setupConfig() {
 
                 // For each thing in the elemtn, make powerup
                 for (int i = 0; i < powerups.size(); i++) {
+                    PowerupConfig *powerup_config = new PowerupConfig();
+                    QStringList powerup_fields = powerups.at(i).split(",", QString::SkipEmptyParts);
+                    if (powerup_fields.size() != 3) {
+                        std::cerr << "Invalid obstacle data at index " << i << std::endl;
+                        continue;
+                    } else {
+                        try {
+                            double offset = powerup_fields.at(0).toDouble();
+                            double y_pos = powerup_fields.at(1).toDouble();
+                            int type = powerup_fields.at(2).toDouble();
 
+                            // Check it doesnt overlap
+                            // overlap check later...
+
+                            // Make powerupconfig
+                            powerup_config->offset_x = offset;
+                            powerup_config->position_y = y_pos;
+                            powerup_config->type = type;
+
+                            level_powerups->push_back(powerup_config);
+                        } catch (const std::exception &e) {
+                            std::cerr << "Invalid powerup data at index " << i << std::endl;
+                            continue;
+                        }
+                    }
                 }
             }
 
@@ -157,6 +183,10 @@ void Stage3Config::setupConfig() {
 
 std::vector<std::vector<ObstacleConfig *> *> Stage3Config::getAllLevelObstacleData() {
     return level_obstacle_data;
+}
+
+std::vector<std::vector<PowerupConfig *> *> Stage3Config::getAllLevelPowerupData() {
+    return level_powerup_data;
 }
 
 std::vector<ObstacleConfig *> Stage3Config::getLevelObstacle(int level) {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "entity.h"
+#include "config.h"
 
 #include <string>
 
