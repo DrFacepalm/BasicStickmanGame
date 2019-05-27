@@ -31,7 +31,13 @@ void Stage3GameState::update(bool paused) {
     checkObstacleCollision();
     std::cout << "s3gs update 2" << std::endl;
     checkPowerupCollision();
+    checkCheckpointCollision();
+    if (checkpoint_collide && on_last_level) {
+        std::cout << "GAME END GAME END" << std::endl;
+    }
+
     std::cout << "s3gs update 3" << std::endl;
+
     double deltaTimeMilliseconds = 32; // Comes from hard coded timer interval value in Stage1Game.
     getLevelRoot(current_level)->update(paused || player_colliding, deltaTimeMilliseconds);
     if (getPlayer() != nullptr) {
@@ -42,6 +48,16 @@ void Stage3GameState::update(bool paused) {
 
 Entity *Stage3GameState::getRootEntity() {
     return getLevelRoot(current_level);
+}
+
+void Stage3GameState::nextLevel()
+{
+    if (current_level == num_levels) {
+        on_last_level = true;
+        return;
+    } else {
+        current_level += 1;
+    }
 }
 
 Entity *Stage3GameState::findEntityByNameRecursive(const std::string &name, Entity *root) {
@@ -87,6 +103,24 @@ void Stage3GameState::checkObstacleCollision() {
         }
     }
     player_colliding = player_collided;
+}
+
+void Stage3GameState::checkCheckpointCollision() {
+    bool checkpoint_collided = false;
+
+    for (auto *entity : findEntitiesByNameContains("checkpoint")) {
+        RectCollider *p_col = getPlayer()->getCollider();
+        RectCollider *chk_col = entity->getCollider();
+        if (p_col != nullptr && chk_col != nullptr) {
+            if (p_col->checkCollision(*chk_col)) {
+                getPlayer()->onCollision(entity);
+                entity->onCollision(getPlayer());
+                nextLevel();
+                checkpoint_collided = true;
+            }
+        }
+    }
+    checkpoint_collide = checkpoint_collided;
 }
 
 void Stage3GameState::checkPowerupCollision() {

@@ -20,5 +20,6 @@
         <file>sound/background_music.wav</file>
         <file>config/config.txt</file>
         <file>img/powerups/star.png</file>
+        <file>img/checkpoints/flag.png</file>
     </qresource>
 </RCC>

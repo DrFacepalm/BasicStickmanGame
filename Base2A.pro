@@ -59,7 +59,8 @@ SOURCES += \
     stage3gamestatefactory.cpp \
     stage3gamefactory.cpp \
     stage3config.cpp \
-    powerup.cpp
+    powerup.cpp \
+    checkpoint.cpp
 
 HEADERS += \
     coordinate.h \
@@ -95,7 +96,9 @@ HEADERS += \
     stage3gamestatefactory.h \
     stage3gamefactory.h \
     stage3config.h \
-    powerup.h
+    powerup.h \
+    checkpoint.h \
+    stage3abstractstate.h
 
 FORMS += \
     pausedialog.ui \

@@ -18,6 +18,11 @@ struct PowerupConfig {
     int type;
 };
 
+struct CheckpointConfig {
+    double offset_x;
+    double position_y;
+};
+
 class Configuration {
 public:
     virtual ~Configuration() = default;

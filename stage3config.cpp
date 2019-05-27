@@ -27,6 +27,7 @@ std::vector<ObstacleConfig *> Stage3Config::getObstacleData() {
 
 
 void Stage3Config::setupConfig() {
+    std::cout << "setupconfig" << std::endl;
     QFile config_file(":config/config.txt");
 
     //Open the config file

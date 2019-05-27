@@ -33,6 +33,8 @@ GameState* Stage3GameStateFactory::createGameState() {
     std::vector<std::vector<ObstacleConfig *> *>::iterator obstacle_it;
     std::vector<std::vector<PowerupConfig *> *>::iterator powerup_it;
 
+    int num_levels = 0;
+
     std::cout << "gamestatefactory things 3" << std::endl;
 
     for (obstacle_it = all_level_obstacle_data.begin(), powerup_it = all_level_powerup_data.begin();
@@ -55,7 +57,7 @@ GameState* Stage3GameStateFactory::createGameState() {
         int count = 0;
         // For every obstacle in the level
         for (ObstacleConfig *o_config : *obstacle_configuation) {
-            previous_x = previous_x + o_config->offset_x;
+            previous_x += o_config->offset_x;
             std::stringstream name;
             name << "obstacle_" << count;
             Coordinate *obs_pos = new Coordinate(previous_x, o_config->position_y, world_height, world_width);
@@ -65,6 +67,11 @@ GameState* Stage3GameStateFactory::createGameState() {
             root->addChild(obs);
             count++;
         }
+
+        // Create the checkpoint
+        Coordinate *checkpoint_pos = new Coordinate(previous_x + 200, 50, world_height, world_width);
+        Checkpoint *chk = new Checkpoint(checkpoint_pos, -Config::config()->getStickman()->getVelocity(), "checkpoint");
+        root->addChild(chk);
 
         std::cout << "gamestatefactory things 7" << std::endl;
 
@@ -89,12 +96,15 @@ GameState* Stage3GameStateFactory::createGameState() {
 
         state->level_data.push_back(root);
         std::cout << "gamestatefactory things 10" << std::endl;
+
+        num_levels += 1;
     }
 
     state->setLevel(1);
     state->setPlayerMoving(false);
     state->setBackground(background);
     state->setPlayer(player);
+    state->setNumLevels(num_levels);
 
     Config::config()->getStickman()->changeVelocity(0);
     Config::config()->getStickman()->updateStickman();

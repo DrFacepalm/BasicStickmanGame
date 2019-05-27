@@ -4,6 +4,8 @@
 #include "stage2game.h"
 #include "obstacle.h"
 #include "gamestate.h"
+#include "checkpoint.h"
+#include "powerup.h"
 #include "stickmanplayer.h"
 #include "extendedconfig.h"
 #include "emptyentity.h"

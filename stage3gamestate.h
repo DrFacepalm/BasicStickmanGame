@@ -24,16 +24,25 @@ public:
     virtual Entity *getRootEntity();
 
     void setLevel(int level) { current_level = level; }
-    void nextLevel() { current_level += 1; }
     int getLevel() { return current_level; }
+    void nextLevel();
+
+    void setNumLevels(int num) { num_levels = num; }
+    int getNumLevels() {return num_levels; }
+
+    bool isLastLevel() { return on_last_level; }
 
 protected:
     virtual Entity *findEntityByNameRecursive(const std::string &name, Entity *root);
     virtual void findEntitiesByNameContainsRecursive(const std::string &string, Entity *root, std::vector<Entity *>& list);
 
 private:
+    int num_levels;
+    bool on_last_level;
+    bool checkpoint_collide;
     int current_level;
     void checkObstacleCollision();
     void checkPowerupCollision();
+    void checkCheckpointCollision();
 };
 

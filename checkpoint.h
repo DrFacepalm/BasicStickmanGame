@@ -6,12 +6,10 @@
 #include "rectcollider.h"
 #include "coordinate.h"
 
-class Powerup : public CompositeEntity {
-
+class Checkpoint : public CompositeEntity {
 public:
-    Powerup(Coordinate *position, double width, double height, double velocity, std::string name);
-    Powerup(Coordinate *position, double velocity, std::string name);
-    ~Powerup() override = default;
+    Checkpoint(Coordinate *position, double velocity, std::string name);
+    ~Checkpoint() override = default;
 
     virtual RectCollider *getCollider() override { return &collider; }
 
@@ -20,8 +18,8 @@ public:
 
     bool isMoving() { return is_moving; }
 
-    void set_isCollected(bool val) { is_collected = val; }
-    bool isCollected() { return is_collected; }
+    void set_reached(bool val) { reached = val; }
+    bool has_reached() { return reached; }
 
 private:
     QPixmap image;
@@ -31,5 +29,6 @@ private:
     double velocity;
     double dist_travelled;
     bool is_moving;
-    bool is_collected;
+    bool reached;
+
 };
