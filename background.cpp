@@ -2,11 +2,12 @@
 
 #include "config.h"
 
-Background::Background(Coordinate main_coordinate)
+Background::Background(Coordinate main_coordinate, bool end)
     : main_coordinate(main_coordinate),
       first_coordinate(main_coordinate),
       second_coordinate(main_coordinate),
-      third_coordinate(main_coordinate) {
+      third_coordinate(main_coordinate),
+      end(end) {
 
     //Load the respective background components into variables
     this->first.load(":img/background" + QString::number(Config::config()->getBackgroundNumber()) + "/first.png");
@@ -27,12 +28,23 @@ Background::Background(Coordinate main_coordinate)
                                      Qt::AspectRatioMode());
 }
 
-
 /*
  * Renders the background, the background has a parallax effect so there is
  * 3 different components that move along the x-axis
 */
 void Background::render(QPainter &painter, bool paused) {
+
+    if (end) {
+        QPen pen;
+        pen.setColor(Qt::black);
+        pen.setWidth(2);
+        painter.setPen(pen);
+
+        QBrush brush(Qt::black);
+        painter.drawRect(main_coordinate.getQtRenderingXCoordinate(), main_coordinate.getQtRenderingYCoordinate(),
+                         Config::config()->getWorldWidth(), Config::config()->getWorldHeight());
+        return;
+    }
 
     /*
      * Create three new coordinates to represent a wrap around.

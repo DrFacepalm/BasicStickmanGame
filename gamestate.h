@@ -36,8 +36,10 @@ public:
     virtual void update(bool paused);
     bool getPlayerColliding() {return player_colliding; }
 
+    virtual void handle();
+
     ///// STAGE3TESTING /////
-    virtual void checkPowerupCollision();
+    virtual void checkPowerupCollision1();
     void setPlayerMoving(bool moving) { player_moving = moving; }
     bool playerMoving() { return player_moving; }
     /////////////////////////

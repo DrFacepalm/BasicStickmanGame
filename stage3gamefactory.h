@@ -2,7 +2,7 @@
 
 #include "stage2gamefactory.h"
 #include "stage3game.h"
-#include "stage3gamestatefactory.h"
+#include "stage3gamestate.h"
 
 class Stage3GameFactory : public Stage2GameFactory {
 public:

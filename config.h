@@ -22,6 +22,7 @@ public:
     unsigned int getWorldWidth() { return world_width; }
     unsigned int getWorldHeight() { return world_height; }
     int getBackgroundNumber() { return background_number; }
+    int getStage() { return stage; }
 
     //Setter functions
     void setWorldWidth(unsigned int width) { world_width = width; }
@@ -38,5 +39,6 @@ private:
     unsigned int world_height = 0;
     int background_number = 0;
     Stickman *stickman = nullptr;
+    int stage;
 };
 

@@ -4,7 +4,6 @@
 #include "stage2gamestatefactory.h"
 #include "tester.h"
 #include "stage3gamefactory.h"
-#include "stage3gamestatefactory.h"
 
 #include <QApplication>
 #include <QSound>
@@ -31,12 +30,18 @@ int main(int argc, char *argv[]) {
     //tester.run(2048);
 
     // Create rendered version of the game
+
+//    // Get stage and create the appropriate version of the game
+//    if (Config::config()->getStage() == 1) {
+//        auto state_factory = std::unique_ptr<GameStateFactory>(new GameStateFactory());
+//        GameFactory *factory = new GameFactory();
+//    }
+
     GameFactory* factory = new Stage3GameFactory();
 
     StartDialog start_dialog(factory);
     start_dialog.setWindowTitle("Main Menu");
     start_dialog.show();
-     std::cout << "main 1" << std::endl;
 
     auto exit_code = a.exec();
     return exit_code;

@@ -6,11 +6,22 @@
 #include <vector>
 #include "background.h"
 #include "player.h"
+#include <sstream>
+#include "stickmanplayer.h"
 #include "rectcollider.h"
+#include "stage3config.h"
+#include "checkpoint.h"
+#include "obstacle.h"
+#include "stage3game.h"
+#include "stage3endstate.h"
 
 class Stage3GameState : public GameState {
 public:
+    Stage3GameState(Stage3Game *context);
+
     Stage3GameState();
+    void setContext(Stage3Game *context);
+
     std::vector<Entity *> getLevelData();
     Entity *getLevelRoot(int level);
 
@@ -22,6 +33,8 @@ public:
 
     std::vector<Entity *> level_data;
     virtual Entity *getRootEntity();
+
+    virtual void handle();
 
     void setLevel(int level) { current_level = level; }
     int getLevel() { return current_level; }
@@ -37,6 +50,7 @@ protected:
     virtual void findEntitiesByNameContainsRecursive(const std::string &string, Entity *root, std::vector<Entity *>& list);
 
 private:
+    int state_num;
     int num_levels;
     bool on_last_level;
     bool checkpoint_collide;
@@ -44,5 +58,7 @@ private:
     void checkObstacleCollision();
     void checkPowerupCollision();
     void checkCheckpointCollision();
+
+    Stage3Game *current_context;
 };
 

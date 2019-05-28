@@ -12,7 +12,7 @@ class Background {
 
 public:
 
-    Background(Coordinate main_coordinate);
+    Background(Coordinate main_coordinate, bool end=false);
     ~Background() = default;
 
     //Render the background depending on if it is in a paused state or not
@@ -34,6 +34,8 @@ private:
     QPixmap first;
     QPixmap second;
     QPixmap third;
+
+    bool end;
 };
 
 

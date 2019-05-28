@@ -27,6 +27,14 @@ void Stage3Game::render(QPainter &painter) {
     state->getRootEntity()->render(painter);
 }
 
+void Stage3Game::setState(GameState *state) {
+    current_state = state;
+}
+
+void Stage3Game::handle() {
+    current_state->handle();
+}
+
 void Stage3Game::keyPressEvent(QKeyEvent *event) {
     // Do what stage 2 does for keyPress
     Stage2Game:: keyPressEvent(event);

@@ -72,6 +72,13 @@ void Config::setupConfig() {
                 }
 
                 Config::config()->setBackgroundNumber(element.toInt());
+            } else if (split_line.first() == "Stage") {
+                if (element.toInt() < 1 || element.toInt() > 3) {
+                    std::cerr << "Stage does not exist, it should be either stage 1, 2 or 3" <<  std::endl;
+                    return;
+                } else {
+                    stage = element.toInt();
+                }
             }
 
         }

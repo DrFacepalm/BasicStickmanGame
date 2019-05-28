@@ -14,6 +14,10 @@ public:
 
     void render(QPainter &painter);
 
+    void setState(GameState *state);
+
+    void handle();
+
 protected:
 
     void paintEvent(QPaintEvent *event) override;
@@ -22,4 +26,5 @@ protected:
 
 private:
     int default_move_speed;
+    GameState *current_state;
 };

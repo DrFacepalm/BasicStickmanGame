@@ -23,6 +23,11 @@ struct CheckpointConfig {
     double position_y;
 };
 
+struct CoinConfig {
+    double offset_x;
+    double position_y;
+};
+
 class Configuration {
 public:
     virtual ~Configuration() = default;

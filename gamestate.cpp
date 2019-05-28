@@ -95,7 +95,7 @@ void GameState::checkCollisions() {
 }
 
 //////////// STAGE 3 TESTING ///////////
-void GameState::checkPowerupCollision() {
+void GameState::checkPowerupCollision1() {
     bool power_collected = false;
     for (auto *entity : findEntitiesByNameContains("powerup")) {
         RectCollider* p_col = getPlayer()->getCollider();
@@ -132,10 +132,14 @@ void GameState::checkPowerupCollision() {
 
 void GameState::update(bool paused) {
     checkCollisions();
-    checkPowerupCollision();
+    checkPowerupCollision1();
     double deltaTimeMilliseconds = 32; // Comes from hard coded timer interval value in Stage1Game.
     getRootEntity()->update(paused || player_colliding, deltaTimeMilliseconds);
     if (getPlayer() != nullptr) {
         getPlayer()->update(paused, deltaTimeMilliseconds);
     }
+}
+
+void GameState::handle() {
+    return;
 }

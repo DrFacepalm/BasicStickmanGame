@@ -56,11 +56,12 @@ SOURCES += \
     stage2gamestate.cpp \
     stage3gamestate.cpp \
     stage3game.cpp \
-    stage3gamestatefactory.cpp \
     stage3gamefactory.cpp \
     stage3config.cpp \
     powerup.cpp \
-    checkpoint.cpp
+    checkpoint.cpp \
+    stage3endstate.cpp \
+    coin.cpp
 
 HEADERS += \
     coordinate.h \
@@ -93,12 +94,13 @@ HEADERS += \
     stage2gamestate.h \
     stage3gamestate.h \
     stage3game.h \
-    stage3gamestatefactory.h \
     stage3gamefactory.h \
     stage3config.h \
     powerup.h \
     checkpoint.h \
-    stage3abstractstate.h
+    stage3abstractstate.h \
+    stage3endstate.h \
+    coin.h
 
 FORMS += \
     pausedialog.ui \
