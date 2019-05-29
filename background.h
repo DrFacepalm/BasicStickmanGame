@@ -35,6 +35,8 @@ private:
     QPixmap second;
     QPixmap third;
 
+    QPixmap end_screen;
+
     bool end;
 };
 

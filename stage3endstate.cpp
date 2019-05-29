@@ -14,8 +14,19 @@ Stage3EndState::Stage3EndState(Stage3Game *context) {
     setBackground(background);
 
     current_context = context;
+    state_num = 1;
+}
+
+Entity *Stage3EndState::getRootEntity() {
+    return nullptr;
 }
 
 void Stage3EndState::handle() {
     return;
 }
+
+void Stage3EndState::update(bool paused) {
+    return;
+}
+
+

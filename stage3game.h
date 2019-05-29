@@ -14,7 +14,7 @@ public:
 
     void render(QPainter &painter);
 
-    void setState(GameState *state);
+    void setState(GameState *s);
 
     void handle();
 

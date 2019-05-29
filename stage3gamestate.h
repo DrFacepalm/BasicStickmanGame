@@ -46,6 +46,8 @@ public:
 
     bool isLastLevel() { return on_last_level; }
 
+    //int state_num;
+
 protected:
     virtual Entity *findEntityByNameRecursive(const std::string &name, Entity *root);
     virtual void findEntitiesByNameContainsRecursive(const std::string &string, Entity *root, std::vector<Entity *>& list);
@@ -56,7 +58,6 @@ protected:
     void checkCoinCollision();
 
 private:
-    int state_num;
     int num_levels;
     bool on_last_level;
     bool checkpoint_collide;

@@ -26,6 +26,10 @@ Background::Background(Coordinate main_coordinate, bool end)
     this->third = this->third.scaled(Config::config()->getWorldWidth(),
                                      Config::config()->getWorldHeight(),
                                      Qt::AspectRatioMode());
+
+    if (end) {
+        this->end_screen.load(":img/endscreen/endscreen.png");
+    }
 }
 
 /*
@@ -42,6 +46,7 @@ void Background::render(QPainter &painter, bool paused) {
         painter.setPen(pen);
 
         QBrush brush(Qt::black);
+        painter.setBrush(brush);
         painter.drawRect(main_coordinate.getQtRenderingXCoordinate(), main_coordinate.getQtRenderingYCoordinate(),
                          Config::config()->getWorldWidth(), Config::config()->getWorldHeight());
         return;

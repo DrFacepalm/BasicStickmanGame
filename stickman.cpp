@@ -1,7 +1,7 @@
 #include "stickman.h"
 
 Stickman::~Stickman() {
-    std::cout << "Deleted Stickman" << std::endl;
+   //std::cout << "Deleted Stickman" << std::endl;
 }
 
 //Set the scaled dimensions of the stickman, depending on the given size

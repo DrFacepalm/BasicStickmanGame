@@ -40,7 +40,7 @@ void StickmanPlayer::checkGroundCollision() {
 }
 
 void StickmanPlayer::onCollision(Entity* other) {
-    std::cout << other->getName() << std::endl;
+   //std::cout << other->getName() << std::endl;
 }
 
 void StickmanPlayer::update(bool paused, double time_since_last_frame) {

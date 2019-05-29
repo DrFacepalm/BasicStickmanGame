@@ -24,15 +24,19 @@ void Stage3Game::render(QPainter &painter) {
     }
 
     // Render all entities stored in the game state
-    state->getRootEntity()->render(painter);
+    std::cout << "state number is: " << state->state_num << std::endl;
+    if (state->state_num != 1) {
+        state->getRootEntity()->render(painter);
+    }
+
 }
 
-void Stage3Game::setState(GameState *state) {
-    current_state = state;
+void Stage3Game::setState(GameState *s) {
+    state = s;
 }
 
 void Stage3Game::handle() {
-    current_state->handle();
+    state->handle();
 }
 
 void Stage3Game::keyPressEvent(QKeyEvent *event) {

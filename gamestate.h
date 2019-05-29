@@ -39,6 +39,9 @@ public:
     virtual void handle();
 
     ///// STAGE3TESTING /////
+
+    int state_num;
+
     virtual void checkPowerupCollision1();
     void setPlayerMoving(bool moving) { player_moving = moving; }
     bool playerMoving() { return player_moving; }

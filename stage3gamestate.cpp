@@ -268,7 +268,7 @@ void Stage3GameState::update(bool paused) {
     checkCheckpointCollision();
     checkCoinCollision();
     if (checkpoint_collide && on_last_level) {
-        std::cout << "GAME END GAME END" << std::endl;
+       //std::cout << "GAME END GAME END" << std::endl;
         handle();
     }
 
@@ -288,6 +288,7 @@ Entity *Stage3GameState::getRootEntity() {
 
 void Stage3GameState::handle() {
     current_context->setState(new Stage3EndState(current_context));
+   //std::cout << "handlerhandler" << std::endl;
 }
 
 void Stage3GameState::nextLevel()
@@ -398,7 +399,7 @@ void Stage3GameState::checkPowerupCollision() {
                 Powerup *collected_powerup = static_cast<Powerup*>(entity);
                 // get current size
                 std::string size = Config::config()->getStickman()->getSize();
-                std::cout << size << std::endl;
+               //std::cout << size << std::endl;
                 Stickman *stickman = Config::config()->getStickman();
                 if (size == "tiny" && !collected_powerup->isCollected()) {
                     stickman->changeSize("normal");

@@ -30,27 +30,27 @@ void Tester::run(int num_frames) {
         }
         simulateUpdate();
         assertCollisionBehaviour();
-        std::cout << std::endl;
+       //std::cout << std::endl;
     }
 }
 
 void Tester::simulateUpdate() {
     state->update(paused);
-    std::cout << "Update simulated" << std::endl;
+   //std::cout << "Update simulated" << std::endl;
 
 }
 
 void Tester::simulateJump() {
     state->getPlayer()->jump();
-    std::cout << "Jump simulated" << std::endl;
+   //std::cout << "Jump simulated" << std::endl;
 }
 
 void Tester::simulateTogglePause() {
     paused = !paused;
     if (paused) {
-        std::cout << "Paused" << std::endl;
+       //std::cout << "Paused" << std::endl;
     } else {
-        std::cout << "Unpaused" << std::endl;
+       //std::cout << "Unpaused" << std::endl;
     }
 }
 
@@ -67,7 +67,7 @@ bool Tester::assertCollisionBehaviour() {
         }
     }
 
-    std::cout << "Passed obstacle collision behaviour test." << std::endl;
+   //std::cout << "Passed obstacle collision behaviour test." << std::endl;
 
     return true;
 }

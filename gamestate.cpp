@@ -107,7 +107,7 @@ void GameState::checkPowerupCollision1() {
                 Powerup *collected_powerup = static_cast<Powerup*>(entity);
                 // get current size
                 std::string size = Config::config()->getStickman()->getSize();
-                std::cout << size << std::endl;
+               //std::cout << size << std::endl;
                 Stickman *stickman = Config::config()->getStickman();
                 if (size == "tiny" && !collected_powerup->isCollected()) {
                     stickman->changeSize("normal");

@@ -17,8 +17,11 @@ public:
     Stage3EndState(Stage3Game* context);
     virtual void handle();
 
+    void update(bool paused) override;
+
+    Entity *getRootEntity() override;
 private:
-    int state_num;
+
     Stage3Game *current_context;
 
 };
