@@ -1,5 +1,8 @@
 # Flying Stickman Game
 
+# FOREWORD
+This repository is mainly a backup for some university work.
+
 # STYLE GUIDE
 
 The style for this project is based on the Google [C++ style guide](https://google.github.io/styleguide/cppguide.html). There are some variations:
