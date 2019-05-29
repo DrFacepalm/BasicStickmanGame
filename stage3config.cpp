@@ -27,7 +27,7 @@ std::vector<ObstacleConfig *> Stage3Config::getObstacleData() {
 
 
 void Stage3Config::setupConfig() {
-    std::cout << "setupconfig" << std::endl;
+   //std::cout << "setupconfig" << std::endl;
     QFile config_file(":config/config.txt");
 
     //Open the config file
@@ -51,7 +51,7 @@ void Stage3Config::setupConfig() {
                 std::cerr << "Stage 3 should not have any Obstacles field in the config" << std::endl;
                 continue;
             } else if (split_line.first().startsWith("Level")) {
-                std::cout << "im gay" << std::endl;
+               //std::cout << "im gay" << std::endl;
                 // make new vector
                 std::vector<ObstacleConfig *> *level_obstacles = new std::vector<ObstacleConfig *>();
 
@@ -170,7 +170,40 @@ void Stage3Config::setupConfig() {
                         }
                     }
                 }
+            } else if (split_line.first().startsWith("Coin_")) {
+                // Make a new vector for the current line of powerups
+                std::vector<CoinConfig *> *level_coins = new std::vector<CoinConfig *>();
+
+                // Add vector to level_coin_data
+                level_coin_data.push_back(level_coins);
+
+                // Elements should have config <xpos>,<y_position>|<xpos>,<y_position>
+                QStringList coins = element.split("|", QString::SkipEmptyParts);
+
+                for (int i = 0; i < coins.size(); i++) {
+                    CoinConfig *coin_config = new CoinConfig();
+                    QStringList coin_fields = coins.at(i).split(",", QString::SkipEmptyParts);
+                    if (coin_fields.size() != 2) {
+                        std::cerr << "invalid obstacle data at index " << i << std::endl;
+                        continue;
+                    } else {
+                        try {
+                            double offset = coin_fields.at(0).toDouble();
+                            double y_pos = coin_fields.at(1).toDouble();
+
+                            // make coinconfig
+                            coin_config->offset_x = offset;
+                            coin_config->position_y = y_pos;
+
+                            level_coins->push_back(coin_config);
+                        } catch  (const std::exception &e) {
+                            std::cerr << "Invalid powerup data at index " << i << std::endl;
+                            continue;
+                        }
+                    }
+                }
             }
+
 
 
         }
@@ -190,10 +223,10 @@ std::vector<std::vector<PowerupConfig *> *> Stage3Config::getAllLevelPowerupData
     return level_powerup_data;
 }
 
-std::vector<ObstacleConfig *> Stage3Config::getLevelObstacle(int level) {
-    current_level = level;
-    return getObstacleData();
+std::vector<std::vector<CoinConfig *> *> Stage3Config::getAllLevelCoinData() {
+    return level_coin_data;
 }
+
 
 void Stage3Config::setCurrentLevel(int level) {
     current_level = level;

@@ -21,5 +21,6 @@
         <file>config/config.txt</file>
         <file>img/powerups/star.png</file>
         <file>img/checkpoints/flag.png</file>
+        <file>img/coins/coin.png</file>
     </qresource>
 </RCC>

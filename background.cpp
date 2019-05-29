@@ -35,6 +35,7 @@ Background::Background(Coordinate main_coordinate, bool end)
 void Background::render(QPainter &painter, bool paused) {
 
     if (end) {
+        std::cout << "RENDER END RDNER END" << std::endl;
         QPen pen;
         pen.setColor(Qt::black);
         pen.setWidth(2);

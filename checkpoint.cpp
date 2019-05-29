@@ -42,6 +42,6 @@ void Checkpoint::render(QPainter &painter) {
         double y = this->getPosition()->getQtRenderingYCoordinate();
         painter.drawPixmap(x - width/2.0, y - height/2.0, width, height, image);
     }
-    std::cout << "renderer checkpoint @@@@@@@@@@" << std::endl;
+   //std::cout << "renderer checkpoint @@@@@@@@@@" << std::endl;
     renderChildren(painter);
 }

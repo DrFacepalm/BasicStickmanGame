@@ -30,10 +30,6 @@ public:
     std::vector<std::vector<PowerupConfig *> *> getAllLevelPowerupData();
     std::vector<std::vector<CoinConfig *> *> getAllLevelCoinData();
 
-
-    // Gets the obstacle data for a certain level.
-    std::vector<ObstacleConfig *> getLevelObstacle(int level);
-
     // sets current level
     void setCurrentLevel(int level);
 
@@ -45,5 +41,6 @@ private:
     Config &config;
     std::vector<std::vector<ObstacleConfig *> *> level_obstacle_data;
     std::vector<std::vector<PowerupConfig *> *> level_powerup_data;
+    std::vector<std::vector<CoinConfig *> *> level_coin_data;
     int current_level;
 };

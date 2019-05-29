@@ -14,6 +14,7 @@
 #include "obstacle.h"
 #include "stage3game.h"
 #include "stage3endstate.h"
+#include "coin.h"
 
 class Stage3GameState : public GameState {
 public:
@@ -49,15 +50,19 @@ protected:
     virtual Entity *findEntityByNameRecursive(const std::string &name, Entity *root);
     virtual void findEntitiesByNameContainsRecursive(const std::string &string, Entity *root, std::vector<Entity *>& list);
 
+    void checkObstacleCollision();
+    void checkPowerupCollision();
+    void checkCheckpointCollision();
+    void checkCoinCollision();
+
 private:
     int state_num;
     int num_levels;
     bool on_last_level;
     bool checkpoint_collide;
+    bool coin_collected;
     int current_level;
-    void checkObstacleCollision();
-    void checkPowerupCollision();
-    void checkCheckpointCollision();
+    int level_points;
 
     Stage3Game *current_context;
 };

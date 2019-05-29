@@ -5,7 +5,7 @@ Stage3Game::Stage3Game(GameState *state) :
     Stage2Game(state),
     default_move_speed(10)
 {
-    std::cout << "stage3 construct" << std::endl;
+    //std::cout << "stage3 construct" << std::endl;
 }
 
 Stage3Game::~Stage3Game() {
@@ -13,7 +13,7 @@ Stage3Game::~Stage3Game() {
 }
 
 void Stage3Game::render(QPainter &painter) {
-    std::cout << "stage3 render" << std::endl;
+    //std::cout << "stage3 render" << std::endl;
     // Do what stage 2 does for render
     if (state->getBackground() != nullptr) {
         state->getBackground()->render(painter, paused || state->getPlayerColliding());
@@ -64,9 +64,9 @@ void Stage3Game::keyReleaseEvent(QKeyEvent *event)
 }
 
 void Stage3Game::paintEvent(QPaintEvent *event) {
-    std::cout << "s3 paint event" << std::endl;
+    //std::cout << "s3 paint event" << std::endl;
     state->update(paused);
-    std::cout << "s3 paint event" << std::endl;
+    //std::cout << "s3 paint event" << std::endl;
     QPainter painter(this);
     render(painter);
 }

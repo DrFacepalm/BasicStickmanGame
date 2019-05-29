@@ -2,6 +2,8 @@
 
 Stage3EndState::Stage3EndState(Stage3Game *context) {
 
+
+
     unsigned int world_height = Config::config()->getWorldHeight();
     unsigned int world_width = Config::config()->getWorldWidth();
 
