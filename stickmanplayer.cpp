@@ -13,7 +13,7 @@ StickmanPlayer::StickmanPlayer(Coordinate* position, std::string name)
       jump_count(0),
       frame_number(1),
       counter(0) {
-    physics_body.setYAcceleration(gravity);
+      physics_body.setYAcceleration(gravity);
 }
 
 StickmanPlayer::~StickmanPlayer() {

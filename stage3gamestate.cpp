@@ -108,7 +108,7 @@ Stage3GameState::Stage3GameState(Stage3Game *context) {
     setPlayerMoving(false);
     setBackground(background);
     setPlayer(player);
-    setNumLevels(num_levels);
+    setNumLevels(num_levels + 1);
 
     Config::config()->getStickman()->changeVelocity(0);
     Config::config()->getStickman()->updateStickman();
@@ -233,6 +233,7 @@ Stage3GameState::Stage3GameState() {
 
     state_num = 0;
     level_points = 0;
+    on_last_level = false;
 }
 
 void Stage3GameState::setContext(Stage3Game *context) {
@@ -261,6 +262,7 @@ std::vector<Entity *> Stage3GameState::findEntitiesByNameContains(const std::str
 }
 
 void Stage3GameState::update(bool paused) {
+    std::cout << "StickmanSize is: " << Config::config()->getStickman()->getSize() << std::endl;
    //std::cout << "s3gs update " << std::endl;
     checkObstacleCollision();
    //std::cout << "s3gs update 2" << std::endl;
@@ -268,8 +270,14 @@ void Stage3GameState::update(bool paused) {
     checkCheckpointCollision();
     checkCoinCollision();
     if (checkpoint_collide && on_last_level) {
-       //std::cout << "GAME END GAME END" << std::endl;
+       std::cout << "GAME END GAME END" << std::endl;
         handle();
+    }
+
+    if (Config::config()->getStickman()->getSize() == "large") {
+        getPlayer()->setJumpHeight(350);
+    } else {
+        getPlayer()->setJumpHeight(150);
     }
 
    //std::cout << "s3gs update 3" << std::endl;

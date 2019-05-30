@@ -25,6 +25,11 @@ void Stage3EndState::handle() {
     return;
 }
 
+void Stage3EndState::setContext(Stage3Game *context) {
+    current_context = context;
+}
+
+
 void Stage3EndState::update(bool paused) {
     return;
 }

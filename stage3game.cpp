@@ -36,12 +36,19 @@ void Stage3Game::setState(GameState *s) {
 }
 
 void Stage3Game::handle() {
-    state->handle();
+    // state->handle();
+    return;
 }
 
 void Stage3Game::keyPressEvent(QKeyEvent *event) {
-    // Do what stage 2 does for keyPress
-    Stage2Game:: keyPressEvent(event);
+    // Do what stage 1 does for keyPress
+    Stage1Game::keyPressEvent(event);
+
+    // Do Modified Stage2Jump
+    if (event->key() == Qt::Key_Space) {
+        // Make stickman jump
+        state->getPlayer()->jump();
+    }
 
     // Do whatever else you need to do
     if (event->type()==QEvent::KeyPress) {

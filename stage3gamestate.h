@@ -14,14 +14,15 @@
 #include "obstacle.h"
 #include "stage3game.h"
 #include "stage3endstate.h"
+#include "stage3abstractstate.h"
 #include "coin.h"
 
-class Stage3GameState : public GameState {
+class Stage3GameState : public Stage3AbstractState {
 public:
     Stage3GameState(Stage3Game *context);
 
     Stage3GameState();
-    void setContext(Stage3Game *context);
+    void setContext(Stage3Game *context) override;
 
     std::vector<Entity *> getLevelData();
     Entity *getLevelRoot(int level);
@@ -65,6 +66,5 @@ private:
     int current_level;
     int level_points;
 
-    Stage3Game *current_context;
 };
 

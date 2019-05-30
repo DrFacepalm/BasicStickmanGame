@@ -21,10 +21,12 @@ public:
     Obstacle* checkCollisions(std::vector<Obstacle*> obstacles);
 
     virtual RectCollider* getCollider() override { return &collider; }
+    virtual void setJumpHeight(int height) { jump_height = height; }
 
     virtual void onCollision(Entity* other) override;
     virtual void update(bool paused, double time_since_last_frame) override;
     virtual void render(QPainter &painter) override;
+
 
 private:
     // Coordinate for managing jumping and other movement independently to config positions.

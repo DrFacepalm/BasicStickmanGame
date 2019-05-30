@@ -21,8 +21,6 @@ public:
     virtual unsigned int getWorldWidth() override;
     virtual unsigned int getWorldHeight() override;
 
-    // Cannot use with this config, need modified version.
-    // This will only get the obstacle data of the first level
     virtual std::vector<ObstacleConfig *> getObstacleData() override;
 
     // Gets a list of all the level data.

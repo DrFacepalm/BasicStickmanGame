@@ -36,16 +36,14 @@ public:
     virtual void update(bool paused);
     bool getPlayerColliding() {return player_colliding; }
 
-    virtual void handle();
-
     ///// STAGE3TESTING /////
 
     int state_num;
 
-    virtual void checkPowerupCollision1();
     void setPlayerMoving(bool moving) { player_moving = moving; }
     bool playerMoving() { return player_moving; }
     /////////////////////////
+
 protected:
     virtual void checkCollisions();
     virtual Entity* findEntityByNameRecursive(const std::string& name, Entity* root);

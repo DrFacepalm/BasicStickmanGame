@@ -95,51 +95,47 @@ void GameState::checkCollisions() {
 }
 
 //////////// STAGE 3 TESTING ///////////
-void GameState::checkPowerupCollision1() {
-    bool power_collected = false;
-    for (auto *entity : findEntitiesByNameContains("powerup")) {
-        RectCollider* p_col = getPlayer()->getCollider();
-        RectCollider* pow_col = entity->getCollider();
-        if (p_col != nullptr && pow_col != nullptr) {
-            if (p_col->checkCollision(*pow_col)) {
-                getPlayer()->onCollision(entity);
-                entity->onCollision(getPlayer());
-                Powerup *collected_powerup = static_cast<Powerup*>(entity);
-                // get current size
-                std::string size = Config::config()->getStickman()->getSize();
-               //std::cout << size << std::endl;
-                Stickman *stickman = Config::config()->getStickman();
-                if (size == "tiny" && !collected_powerup->isCollected()) {
-                    stickman->changeSize("normal");
-                    stickman->updateStickman();
-                } else if (size == "normal" && !collected_powerup->isCollected()) {
-                    stickman->changeSize("large");
-                    stickman->updateStickman();
-                } else if (size == "large" && !collected_powerup->isCollected()) {
-                    stickman->changeSize("giant");
-                    stickman->updateStickman();
-                } else if (size == "giant" && !collected_powerup->isCollected()) {
-                    // dont change size, increase life count?x
-                }
+//void GameState::checkPowerupCollision1() {
+//    bool power_collected = false;
+//    for (auto *entity : findEntitiesByNameContains("powerup")) {
+//        RectCollider* p_col = getPlayer()->getCollider();
+//        RectCollider* pow_col = entity->getCollider();
+//        if (p_col != nullptr && pow_col != nullptr) {
+//            if (p_col->checkCollision(*pow_col)) {
+//                getPlayer()->onCollision(entity);
+//                entity->onCollision(getPlayer());
+//                Powerup *collected_powerup = static_cast<Powerup*>(entity);
+//                // get current size
+//                std::string size = Config::config()->getStickman()->getSize();
+//               //std::cout << size << std::endl;
+//                Stickman *stickman = Config::config()->getStickman();
+//                if (size == "tiny" && !collected_powerup->isCollected()) {
+//                    stickman->changeSize("normal");
+//                    stickman->updateStickman();
+//                } else if (size == "normal" && !collected_powerup->isCollected()) {
+//                    stickman->changeSize("large");
+//                    stickman->updateStickman();
+//                } else if (size == "large" && !collected_powerup->isCollected()) {
+//                    stickman->changeSize("giant");
+//                    stickman->updateStickman();
+//                } else if (size == "giant" && !collected_powerup->isCollected()) {
+//                    // dont change size, increase life count?x
+//                }
 
-                collected_powerup->set_isCollected(true);
-                power_collected = true;
-            }
-        }
-    }
-    powerup_collected = power_collected;
-}
+//                collected_powerup->set_isCollected(true);
+//                power_collected = true;
+//            }
+//        }
+//    }
+//    powerup_collected = power_collected;
+//}
 
 void GameState::update(bool paused) {
     checkCollisions();
-    checkPowerupCollision1();
+    //checkPowerupCollision1();
     double deltaTimeMilliseconds = 32; // Comes from hard coded timer interval value in Stage1Game.
     getRootEntity()->update(paused || player_colliding, deltaTimeMilliseconds);
     if (getPlayer() != nullptr) {
         getPlayer()->update(paused, deltaTimeMilliseconds);
     }
-}
-
-void GameState::handle() {
-    return;
 }
