@@ -8,9 +8,7 @@ Stage3Game::Stage3Game(GameState *state) :
     //std::cout << "stage3 construct" << std::endl;
 }
 
-Stage3Game::~Stage3Game() {
-    delete state;
-}
+Stage3Game::~Stage3Game() {}
 
 void Stage3Game::render(QPainter &painter) {
     //std::cout << "stage3 render" << std::endl;
@@ -28,6 +26,14 @@ void Stage3Game::render(QPainter &painter) {
     if (state->state_num != 1) {
         state->getRootEntity()->render(painter);
     }
+
+    if (state->state_num == 0) {
+        Stage3GameState *s3state = static_cast<Stage3GameState *>(state);
+        s3state->getPointDisplay()->render(painter, false);
+    }/* else {
+        Stage3GameState *s3state = static_cast<Stage3GameState *>(state);
+        s3state->getPointDisplay()->render(painter, false);
+    }*/
 
 }
 

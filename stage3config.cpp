@@ -47,11 +47,12 @@ void Stage3Config::setupConfig() {
                 // Already handled by original config file, ignore.
                 continue;
 
+            } else if (split_line.first() == "Lives") {
+                lives = element.toInt();
             } else if (split_line.first() == "Obstacles") {
                 std::cerr << "Stage 3 should not have any Obstacles field in the config" << std::endl;
                 continue;
             } else if (split_line.first().startsWith("Level")) {
-               //std::cout << "im gay" << std::endl;
                 // make new vector
                 std::vector<ObstacleConfig *> *level_obstacles = new std::vector<ObstacleConfig *>();
 
@@ -230,4 +231,8 @@ std::vector<std::vector<CoinConfig *> *> Stage3Config::getAllLevelCoinData() {
 
 void Stage3Config::setCurrentLevel(int level) {
     current_level = level;
+}
+
+int Stage3Config::getLives() {
+    return lives;
 }

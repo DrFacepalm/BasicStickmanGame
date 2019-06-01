@@ -15,11 +15,14 @@
 
 class Stage3EndState : public Stage3AbstractState {
 public:
-    Stage3EndState(Stage3Game* context);
+    Stage3EndState(Stage3Game* context, bool win);
     virtual void handle();
     virtual void setContext(Stage3Game *context);
 
     void update(bool paused) override;
+
+    virtual void setPointDisplay(PointDisplay *pd) override;
+    virtual PointDisplay *getPointDisplay() override;
 
     Entity *getRootEntity() override;
 private:

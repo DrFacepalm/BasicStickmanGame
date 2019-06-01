@@ -22,5 +22,7 @@
         <file>img/powerups/star.png</file>
         <file>img/checkpoints/flag.png</file>
         <file>img/coins/coin.png</file>
+        <file>img/endscreen/win.png</file>
+        <file>img/endscreen/lose.jpg</file>
     </qresource>
 </RCC>

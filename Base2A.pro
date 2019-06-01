@@ -61,7 +61,9 @@ SOURCES += \
     powerup.cpp \
     checkpoint.cpp \
     stage3endstate.cpp \
-    coin.cpp
+    coin.cpp \
+    pointdisplay.cpp \
+    lifedisplay.cpp
 
 HEADERS += \
     coordinate.h \
@@ -100,7 +102,9 @@ HEADERS += \
     checkpoint.h \
     stage3abstractstate.h \
     stage3endstate.h \
-    coin.h
+    coin.h \
+    pointdisplay.h \
+    lifedisplay.h
 
 FORMS += \
     pausedialog.ui \

@@ -16,6 +16,8 @@ void Config::setupConfig() {
     Config::config()->setWorldWidth(1000);
     Config::config()->setWorldHeight(600);
 
+    stage = 1;
+
     std::string config_size = "normal";
     int config_position = 0;
     double config_velocity = 0.0;
@@ -72,13 +74,11 @@ void Config::setupConfig() {
                 }
 
                 Config::config()->setBackgroundNumber(element.toInt());
-            } else if (split_line.first() == "Stage") {
-                if (element.toInt() < 1 || element.toInt() > 3) {
-                    std::cerr << "Stage does not exist, it should be either stage 1, 2 or 3" <<  std::endl;
-                    return;
-                } else {
-                    stage = element.toInt();
-                }
+            } else if (split_line.first().startsWith("Level")) {
+
+                stage = 3;
+            } else if (split_line.first().startsWith("Obstacles")) {
+                stage = 2;
             }
 
         }

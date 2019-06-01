@@ -1,123 +1,5 @@
 #include "stage3gamestate.h"
 
-Stage3GameState::Stage3GameState(Stage3Game *context) {
-    unsigned int world_height = Config::config()->getWorldHeight();
-    unsigned int world_width = Config::config()->getWorldWidth();
-
-    Background *background = new Background(Coordinate(0, world_height, world_height, world_width));
-    StickmanPlayer* player = new StickmanPlayer(new Coordinate(Config::config()->getStickman()->getXPosition() - (Config::config()->getStickman()->getWidth()*0.5),
-                                                               0 + Config::config()->getStickman()->getHeight(),
-                                                               world_height,
-                                                               world_width),
-                                                "stickman");
-    Coordinate *pos = new Coordinate(0, 0, world_height, world_width);
-    Stage3Config config(*Config::config());
-
-    //setup level_data
-    // get all obstacle datas
-    std::vector<std::vector<ObstacleConfig *> *> all_level_obstacle_data = config.getAllLevelObstacleData();
-    // get all powerup datas
-    std::vector<std::vector<PowerupConfig *> *> all_level_powerup_data = config.getAllLevelPowerupData();
-    // get all coin datas
-    std::vector<std::vector<CoinConfig *> *> all_level_coin_data = config.getAllLevelCoinData();
-
-
-    std::vector<std::vector<ObstacleConfig *> *>::iterator obstacle_it;
-    std::vector<std::vector<PowerupConfig *> *>::iterator powerup_it;
-    std::vector<std::vector<CoinConfig *> *>::iterator coin_it;
-
-    int num_levels = 0;
-
-    for (obstacle_it = all_level_obstacle_data.begin(), powerup_it = all_level_powerup_data.begin(), coin_it = all_level_coin_data.begin();
-         obstacle_it != all_level_obstacle_data.end() && powerup_it != all_level_powerup_data.end(), coin_it != all_level_coin_data.end();
-         obstacle_it++, powerup_it++, coin_it++) {
-       //std::cout << "gamestatefactory things 4" << std::endl;
-
-        std::vector<ObstacleConfig *> *obstacle_configuation = *obstacle_it;
-        std::vector<PowerupConfig *> *powerup_configuration = *powerup_it;
-        std::vector<CoinConfig *> *coin_configuration = *coin_it;
-
-       //std::cout << "gamestatefactory things 5" << std::endl;
-
-        // Create a new root
-        EmptyEntity *root = new EmptyEntity(pos, "root");
-
-       //std::cout << "gamestatefactory things 6" << std::endl;
-
-        // Create obstacles
-        double previous_x = world_width;
-        int count = 0;
-        // For every obstacle in the level
-        for (ObstacleConfig *o_config : *obstacle_configuation) {
-            previous_x += o_config->offset_x;
-            std::stringstream name;
-            name << "obstacle_" << count;
-            Coordinate *obs_pos = new Coordinate(previous_x, o_config->position_y, world_height, world_width);
-            Obstacle *obs = new Obstacle(obs_pos, o_config->width, o_config->height,
-                                         -Config::config()->getStickman()->getVelocity(), -1,
-                                         QColor(o_config->colour_red, o_config->colour_green, o_config->colour_blue), name.str());
-            root->addChild(obs);
-            count++;
-        }
-
-        // Create the checkpoint
-        Coordinate *checkpoint_pos = new Coordinate(previous_x + 200, 50, world_height, world_width);
-        Checkpoint *chk = new Checkpoint(checkpoint_pos, -Config::config()->getStickman()->getVelocity(), "checkpoint");
-        root->addChild(chk);
-
-       //std::cout << "gamestatefactory things 7" << std::endl;
-
-        // Create Powerups
-        previous_x = world_width;
-        count = 0;
-        // for every powerup in the level
-        for (PowerupConfig *power_config : *powerup_configuration) {
-            previous_x += power_config->offset_x;
-            std::stringstream name;
-            name << "powerup_" << count;
-            Coordinate *pow_pos = new Coordinate(previous_x, power_config->position_y, world_height, world_width);
-            Powerup *pow = new Powerup(pow_pos, -Config::config()->getStickman()->getVelocity(), name.str());
-            root->addChild(pow);
-            count++;
-        }
-       //std::cout << "gamestatefactory things 8" << std::endl;
-
-        // Create coins
-        previous_x = world_width;
-        count = 0;
-        // for every coin in the level
-        for (CoinConfig *coin_config : *coin_configuration) {
-            previous_x += coin_config->offset_x;
-            std::stringstream name;
-            name << "coin_" << count;
-           Coordinate *coin_pos = new Coordinate(previous_x, coin_config->position_y, world_height, world_width);
-           Coin *coin = new Coin(coin_pos, -Config::config()->getStickman()->getVelocity(), name.str());
-           root->addChild(coin);
-           count++;
-        }
-
-       //std::cout << "gamestatefactory things 9" << std::endl;
-
-        level_data.push_back(root);
-       //std::cout << "gamestatefactory things 10" << std::endl;
-
-        num_levels += 1;
-    }
-
-    setLevel(1);
-    setPlayerMoving(false);
-    setBackground(background);
-    setPlayer(player);
-    setNumLevels(num_levels + 1);
-
-    Config::config()->getStickman()->changeVelocity(0);
-    Config::config()->getStickman()->updateStickman();
-
-    state_num = 0;
-
-    current_context = context;
-}
-
 Stage3GameState::Stage3GameState() {
     unsigned int world_height = Config::config()->getWorldHeight();
     unsigned int world_width = Config::config()->getWorldWidth();
@@ -128,6 +10,9 @@ Stage3GameState::Stage3GameState() {
                                                                world_height,
                                                                world_width),
                                                 "stickman");
+
+    PointDisplay *pointDisp = new PointDisplay();
+
     Coordinate *pos = new Coordinate(0, 0, world_height, world_width);
     Stage3Config config(*Config::config());
 
@@ -214,7 +99,12 @@ Stage3GameState::Stage3GameState() {
            count++;
         }
 
-       //std::cout << "gamestatefactory things 9" << std::endl;
+       // Create Life Display
+        Coordinate *somePos = new Coordinate(0, 0, 0, 0);
+        LifeDisplay *lifeDisplay = new LifeDisplay(somePos, config.getLives());
+        root->addChild(lifeDisplay);
+
+        alive = true;
 
         level_data.push_back(root);
        //std::cout << "gamestatefactory things 10" << std::endl;
@@ -226,13 +116,14 @@ Stage3GameState::Stage3GameState() {
     setPlayerMoving(false);
     setBackground(background);
     setPlayer(player);
+    setPointDisplay(pointDisp);
     setNumLevels(num_levels);
 
     Config::config()->getStickman()->changeVelocity(0);
     Config::config()->getStickman()->updateStickman();
 
     state_num = 0;
-    level_points = 0;
+    points = 0;
     on_last_level = false;
 }
 
@@ -263,12 +154,16 @@ std::vector<Entity *> Stage3GameState::findEntitiesByNameContains(const std::str
 
 void Stage3GameState::update(bool paused) {
     std::cout << "StickmanSize is: " << Config::config()->getStickman()->getSize() << std::endl;
-   //std::cout << "s3gs update " << std::endl;
+    std::cout << "Points: " << points << std::endl;
+    //std::cout << "s3gs update " << std::endl;
     checkObstacleCollision();
    //std::cout << "s3gs update 2" << std::endl;
     checkPowerupCollision();
     checkCheckpointCollision();
     checkCoinCollision();
+
+    pointDisplay->setPoints(points);
+
     if (checkpoint_collide && on_last_level) {
        std::cout << "GAME END GAME END" << std::endl;
         handle();
@@ -295,8 +190,11 @@ Entity *Stage3GameState::getRootEntity() {
 }
 
 void Stage3GameState::handle() {
-    current_context->setState(new Stage3EndState(current_context));
-   //std::cout << "handlerhandler" << std::endl;
+    if (alive) {
+        current_context->setState(new Stage3EndState(current_context, true));
+    } else {
+        current_context->setState(new Stage3EndState(current_context, false));
+    }
 }
 
 void Stage3GameState::nextLevel()
@@ -307,6 +205,68 @@ void Stage3GameState::nextLevel()
     } else {
         current_level += 1;
     }
+}
+
+void Stage3GameState::setPointDisplay(PointDisplay *pd) {
+    pointDisplay = pd;
+}
+
+PointDisplay *Stage3GameState::getPointDisplay() {
+    return pointDisplay;
+}
+
+void Stage3GameState::resetLevel()
+{
+    double world_width = Config::config()->getWorldWidth();
+    double world_height = Config::config()->getWorldHeight();
+
+    Stage3Config config(*Config::config());
+    // get all obstacle datas for the level
+    std::vector<ObstacleConfig *> *level_obstacle_data = config.getAllLevelObstacleData().at(current_level-1);
+    // get all powerup datas for the level
+    std::vector<PowerupConfig *> *level_powerup_data = config.getAllLevelPowerupData().at(current_level -1);
+    // get all coin datas for the level
+    std::vector<CoinConfig *> *level_coin_data = config.getAllLevelCoinData().at(current_level-1);
+
+    double previous_x = world_width;
+
+    // For every obstacle in the current level
+    for(auto *entity : findEntitiesByNameContains("obstacle")) {
+        QString name = QString::fromStdString(entity->getName());
+        int obstacle_num = name.split("_", QString::SkipEmptyParts).at(1).toInt();
+        ObstacleConfig *obs_config = level_obstacle_data->at(obstacle_num);
+        previous_x += obs_config->offset_x;
+        Coordinate *pos = new Coordinate(previous_x, obs_config->position_y, world_height, world_width);
+        entity->setPosition(pos);
+    }
+
+    Coordinate *checkpoint_pos = new Coordinate(previous_x + 200, 50, world_height, world_width);
+    findEntitiesByNameContains("checkpoint").front()->setPosition(checkpoint_pos);
+
+    previous_x = world_width;
+    // For every powerup in the current level
+    for (auto *entity : findEntitiesByNameContains("powerup")) {
+        QString name = QString::fromStdString(entity->getName());
+        int powerup_num = name.split("_", QString::SkipEmptyParts).at(1).toInt();
+        PowerupConfig *pow_config = level_powerup_data->at(powerup_num);
+        previous_x += pow_config->offset_x;
+        Coordinate *pos = new Coordinate(previous_x, pow_config->position_y, world_height, world_width);
+        entity->setPosition(pos);
+    }
+
+    previous_x = world_width;
+    // For every coin in the current level
+    for (auto *entity : findEntitiesByNameContains("coin")) {
+        QString name = QString::fromStdString(entity->getName());
+        int coin_num = name.split("_", QString::SkipEmptyParts).at(1).toInt();
+        CoinConfig *coin_config = level_coin_data->at(coin_num);
+        previous_x += coin_config->offset_x;
+        Coordinate *pos = new Coordinate(previous_x, coin_config->position_y, world_height, world_width);
+        entity->setPosition(pos);
+    }
+
+    getLevelRoot(current_level)->update(false, 32);
+
 }
 
 Entity *Stage3GameState::findEntityByNameRecursive(const std::string &name, Entity *root) {
@@ -348,6 +308,8 @@ void Stage3GameState::checkObstacleCollision() {
                 getPlayer()->onCollision(entity);
                 entity->onCollision(getPlayer());
                 player_collided = true;
+                lowerLife();
+                resetLevel();
             }
         }
     }
@@ -385,6 +347,7 @@ void Stage3GameState::checkCoinCollision() {
                 Coin *collected_coin = static_cast<Coin *>(entity);
 
                 if (!collected_coin->isCollected()) {
+                    points += 100;
                     collected_coin->set_isCollected(true);
                     c_collected = true;
                 }
@@ -392,6 +355,15 @@ void Stage3GameState::checkCoinCollision() {
         }
     }
     coin_collected = c_collected;
+}
+
+void Stage3GameState::lowerLife() {
+    LifeDisplay *ld = static_cast<LifeDisplay *>(findEntitiesByNameContains("life_display").front());
+    ld->lowerLife();
+    if (ld->getLives() <= 0) {
+        alive = false;
+        handle();
+    }
 }
 
 void Stage3GameState::checkPowerupCollision() {

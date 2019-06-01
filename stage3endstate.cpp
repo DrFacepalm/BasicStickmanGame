@@ -1,13 +1,18 @@
 #include "stage3endstate.h"
 
-Stage3EndState::Stage3EndState(Stage3Game *context) {
+Stage3EndState::Stage3EndState(Stage3Game *context, bool win) {
 
 
 
     unsigned int world_height = Config::config()->getWorldHeight();
     unsigned int world_width = Config::config()->getWorldWidth();
+    Background *background;
+    if (win) {
+        background = new Background(Coordinate(0, world_height, world_height, world_width), 1);
+    } else {
+        background = new Background(Coordinate(0, world_height, world_height, world_width), 2);
+    }
 
-    Background *background = new Background(Coordinate(0, world_height, world_height, world_width), true);
     StickmanPlayer *player = nullptr;
 
     setPlayer(player);
@@ -32,6 +37,14 @@ void Stage3EndState::setContext(Stage3Game *context) {
 
 void Stage3EndState::update(bool paused) {
     return;
+}
+
+void Stage3EndState::setPointDisplay(PointDisplay *pd) {
+    return;
+}
+
+PointDisplay *Stage3EndState::getPointDisplay() {
+    return nullptr;
 }
 
 

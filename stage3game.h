@@ -4,6 +4,8 @@
 #include "player.h"
 #include "stage2game.h"
 #include "gamestate.h"
+#include "stage3abstractstate.h"
+#include "stage3gamestate.h"
 
 class GameState;
 

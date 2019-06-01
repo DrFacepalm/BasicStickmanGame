@@ -37,7 +37,6 @@ void Coin::update(bool paused, double time_since_last_frame) {
 
 
 void Coin::render(QPainter &painter) {
-   //std::cout << "RENDINIGN I COIN OJFOAEWJFAOFJ" << std::endl;
     if (getPosition() != nullptr && !is_collected) {
         double x = this->getPosition()->getQtRenderingXCoordinate();
         double y = this->getPosition()->getQtRenderingYCoordinate();

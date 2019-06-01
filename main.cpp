@@ -31,13 +31,22 @@ int main(int argc, char *argv[]) {
 
     // Create rendered version of the game
 
-//    // Get stage and create the appropriate version of the game
-//    if (Config::config()->getStage() == 1) {
-//        auto state_factory = std::unique_ptr<GameStateFactory>(new GameStateFactory());
-//        GameFactory *factory = new GameFactory();
-//    }
+    // Get stage and create the appropriate version of the game
 
-    GameFactory* factory = new Stage3GameFactory();
+    GameFactory* factory;
+
+    if (Config::config()->getStage() == 1) {
+
+    } else if (Config::config()->getStage() == 2) {
+        std::cout << "STAGE2222" << std::endl;
+        factory = new Stage2GameFactory();
+
+    } else if (Config::config()->getStage() == 3) {
+        std::cout << "stage3??" << std::endl;
+        factory = new Stage3GameFactory();
+    }
+
+    //GameFactory* factory = new Stage3GameFactory();
 
     StartDialog start_dialog(factory);
     start_dialog.setWindowTitle("Main Menu");

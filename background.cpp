@@ -2,12 +2,12 @@
 
 #include "config.h"
 
-Background::Background(Coordinate main_coordinate, bool end)
+Background::Background(Coordinate main_coordinate, int type)
     : main_coordinate(main_coordinate),
       first_coordinate(main_coordinate),
       second_coordinate(main_coordinate),
       third_coordinate(main_coordinate),
-      end(end) {
+      type(type) {
 
     //Load the respective background components into variables
     this->first.load(":img/background" + QString::number(Config::config()->getBackgroundNumber()) + "/first.png");
@@ -27,8 +27,10 @@ Background::Background(Coordinate main_coordinate, bool end)
                                      Config::config()->getWorldHeight(),
                                      Qt::AspectRatioMode());
 
-    if (end) {
-        this->end_screen.load(":img/endscreen/endscreen.png");
+    if (type == 1) {
+        this->win_screen.load(":img/endscreen/win.png");
+    } else if (type == 2) {
+        this->lose_screen.load(":img/endscreen/lose.jpg");
     }
 }
 
@@ -38,17 +40,13 @@ Background::Background(Coordinate main_coordinate, bool end)
 */
 void Background::render(QPainter &painter, bool paused) {
 
-    if (end) {
-        std::cout << "RENDER END RDNER END" << std::endl;
-        QPen pen;
-        pen.setColor(Qt::black);
-        pen.setWidth(2);
-        painter.setPen(pen);
-
-        QBrush brush(Qt::black);
-        painter.setBrush(brush);
-        painter.drawRect(main_coordinate.getQtRenderingXCoordinate(), main_coordinate.getQtRenderingYCoordinate(),
-                         Config::config()->getWorldWidth(), Config::config()->getWorldHeight());
+    if (type == 1) {
+        std::cout << "RENDER WIN" << std::endl;
+        painter.drawPixmap(0, 0, Config::config()->getWorldWidth(), Config::config()->getWorldHeight(), win_screen);
+        return;
+    } else if (type == 2) {
+        std::cout << "RENDER LOSE" << std::endl;
+        painter.drawPixmap(0, 0, Config::config()->getWorldWidth(), Config::config()->getWorldHeight(), lose_screen);
         return;
     }
 

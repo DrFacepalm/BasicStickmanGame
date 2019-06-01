@@ -31,6 +31,8 @@ public:
     // sets current level
     void setCurrentLevel(int level);
 
+    int getLives();
+
 protected:
     // Actually read stuff
     virtual void setupConfig() override;
@@ -41,4 +43,5 @@ private:
     std::vector<std::vector<PowerupConfig *> *> level_powerup_data;
     std::vector<std::vector<CoinConfig *> *> level_coin_data;
     int current_level;
+    int lives;
 };
