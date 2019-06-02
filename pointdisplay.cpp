@@ -10,7 +10,6 @@ PointDisplay::~PointDisplay() {
 }
 
 void PointDisplay::render(QPainter &painter, bool endgame) {
-    std::cout << "render points " << current_points << std::endl;
     QPen pen;
     pen.setColor(Qt::red);
     painter.setPen(pen);

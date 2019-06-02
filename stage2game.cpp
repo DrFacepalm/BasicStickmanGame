@@ -4,9 +4,7 @@
 #include "player.h"
 
 Stage2Game::Stage2Game(GameState* state)
-    : state(state) {
-std::cout << "stage2 construct" << std::endl;
-}
+    : state(state) {}
 
 Stage2Game::~Stage2Game()
 {

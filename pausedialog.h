@@ -3,7 +3,6 @@
 #include <QDialog>
 #include <iostream>
 
-
 #include "config.h"
 
 class QAbstractButton;

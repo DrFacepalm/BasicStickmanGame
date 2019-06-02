@@ -131,58 +131,49 @@ void Stage3GameState::setContext(Stage3Game *context) {
     current_context = context;
 }
 
-std::vector<Entity *> Stage3GameState::getLevelData() {
-    return level_data;
-}
-
 Entity *Stage3GameState::getLevelRoot(int level) {
-   //std::cout << "s3gs entitiesbynamecontains " << std::endl;
     return level_data.at(level - 1);
 }
 
-Entity *Stage3GameState::findLevelEntityByName(const std::string &name, Entity *root) {
-    return findEntityByNameRecursive(name, root);
-}
-
 std::vector<Entity *> Stage3GameState::findEntitiesByNameContains(const std::string &string) {
-   //std::cout << "s3gs entitiesbynamecontains 1" << std::endl;
     std::vector<Entity*>list;
     findEntitiesByNameContainsRecursive(string, getLevelRoot(current_level),list);
-   //std::cout << "s3gs entitiesbynamecontains 2" << std::endl;
     return list;
 }
 
 void Stage3GameState::update(bool paused) {
-    std::cout << "StickmanSize is: " << Config::config()->getStickman()->getSize() << std::endl;
-    std::cout << "Points: " << points << std::endl;
-    //std::cout << "s3gs update " << std::endl;
-    checkObstacleCollision();
-   //std::cout << "s3gs update 2" << std::endl;
-    checkPowerupCollision();
-    checkCheckpointCollision();
-    checkCoinCollision();
-
-    pointDisplay->setPoints(points);
-
-    if (checkpoint_collide && on_last_level) {
-       std::cout << "GAME END GAME END" << std::endl;
-        handle();
-    }
-
     if (Config::config()->getStickman()->getSize() == "large") {
         getPlayer()->setJumpHeight(350);
     } else {
         getPlayer()->setJumpHeight(150);
     }
 
-   //std::cout << "s3gs update 3" << std::endl;
+    checkObstacleCollision();
+    checkPowerupCollision();
+    checkCheckpointCollision();
+    checkCoinCollision();
+    expodingObstacleHelper();
+
+    pointDisplay->setPoints(points);
+
+    if (checkpoint_collide && on_last_level) {
+        handle();
+    }
+
+    if (Config::config()->getStickman()->getSize() == "giant") {
+        player_colliding = false;
+    }
+
+    if (player_colliding) {
+        lowerLife();
+        resetLevel();
+    }
 
     double deltaTimeMilliseconds = 32; // Comes from hard coded timer interval value in Stage1Game.
     getLevelRoot(current_level)->update(paused || player_colliding, deltaTimeMilliseconds);
     if (getPlayer() != nullptr) {
-        getPlayer()->update(paused /*|| !playerMoving()*/, deltaTimeMilliseconds);
+        getPlayer()->update(paused, deltaTimeMilliseconds);
     }
-   //std::cout << "s3gs update 4" << std::endl;
 }
 
 Entity *Stage3GameState::getRootEntity() {
@@ -238,6 +229,10 @@ void Stage3GameState::resetLevel()
         previous_x += obs_config->offset_x;
         Coordinate *pos = new Coordinate(previous_x, obs_config->position_y, world_height, world_width);
         entity->setPosition(pos);
+
+        // Make not exploded
+        Obstacle *obstacle = static_cast<Obstacle *>(entity);
+        obstacle->setExploded(false);
     }
 
     Coordinate *checkpoint_pos = new Coordinate(previous_x + 200, 50, world_height, world_width);
@@ -269,6 +264,11 @@ void Stage3GameState::resetLevel()
 
 }
 
+int Stage3GameState::getLives() {
+    LifeDisplay *ld = static_cast<LifeDisplay *>(findEntitiesByNameContains("life_display").front());
+    return ld->getLives();
+}
+
 Entity *Stage3GameState::findEntityByNameRecursive(const std::string &name, Entity *root) {
     if (root->getName() == name) {
         return root;
@@ -294,22 +294,17 @@ void Stage3GameState::findEntitiesByNameContainsRecursive(const std::string &str
 }
 
 void Stage3GameState::checkObstacleCollision() {
-   //std::cout << "s3gs obscol 1" << std::endl;
     bool player_collided = false;
 
     // Takes every entity in current level
     for(auto *entity : findEntitiesByNameContains("obstacle")) {
-       //std::cout << "s3gs obscol 2" << std::endl;
         RectCollider* p_col = getPlayer()->getCollider();
         RectCollider* o_col = entity->getCollider();
-       //std::cout << "s3gs obscol 3" << std::endl;
         if (p_col != nullptr && o_col != nullptr) {
             if (p_col->checkCollision(*o_col)) {
                 getPlayer()->onCollision(entity);
                 entity->onCollision(getPlayer());
                 player_collided = true;
-                lowerLife();
-                resetLevel();
             }
         }
     }
@@ -334,6 +329,8 @@ void Stage3GameState::checkCheckpointCollision() {
     checkpoint_collide = checkpoint_collided;
 }
 
+
+
 void Stage3GameState::checkCoinCollision() {
     bool c_collected = false;
 
@@ -347,7 +344,7 @@ void Stage3GameState::checkCoinCollision() {
                 Coin *collected_coin = static_cast<Coin *>(entity);
 
                 if (!collected_coin->isCollected()) {
-                    points += 100;
+                    points += 100 * getLives();
                     collected_coin->set_isCollected(true);
                     c_collected = true;
                 }
@@ -355,6 +352,22 @@ void Stage3GameState::checkCoinCollision() {
         }
     }
     coin_collected = c_collected;
+}
+
+void Stage3GameState::expodingObstacleHelper() {
+    // For every obstacle entity in the current level
+    for(auto *entity : findEntitiesByNameContains("obstacle")) {
+        RectCollider* p_col = getPlayer()->getCollider();
+        RectCollider* o_col = entity->getCollider();
+        // Find the one that we're colliding with
+        if (p_col != nullptr && o_col != nullptr) {
+            if (p_col->checkCollision(*o_col)) {
+                Obstacle *obstacle = static_cast<Obstacle *>(entity);
+                obstacle->setExploded(true);
+                return;
+            }
+        }
+    }
 }
 
 void Stage3GameState::lowerLife() {
@@ -377,9 +390,9 @@ void Stage3GameState::checkPowerupCollision() {
                 getPlayer()->onCollision(entity);
                 entity->onCollision(getPlayer());
                 Powerup *collected_powerup = static_cast<Powerup*>(entity);
-                // get current size
+
+                // Get current size
                 std::string size = Config::config()->getStickman()->getSize();
-               //std::cout << size << std::endl;
                 Stickman *stickman = Config::config()->getStickman();
                 if (size == "tiny" && !collected_powerup->isCollected()) {
                     stickman->changeSize("normal");

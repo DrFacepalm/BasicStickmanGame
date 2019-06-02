@@ -6,6 +6,7 @@
 
 class Stage3Game;
 
+// Defines an abstract state for the game, for use with Stage3Game
 class Stage3AbstractState : public GameState
 {
 public:

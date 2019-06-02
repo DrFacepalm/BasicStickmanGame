@@ -1,9 +1,6 @@
 #include "stage3endstate.h"
 
 Stage3EndState::Stage3EndState(Stage3Game *context, bool win) {
-
-
-
     unsigned int world_height = Config::config()->getWorldHeight();
     unsigned int world_width = Config::config()->getWorldWidth();
     Background *background;
@@ -36,14 +33,17 @@ void Stage3EndState::setContext(Stage3Game *context) {
 
 
 void Stage3EndState::update(bool paused) {
+    // Does not need to do anything
     return;
 }
 
 void Stage3EndState::setPointDisplay(PointDisplay *pd) {
+    // Does not need to display anything
     return;
 }
 
 PointDisplay *Stage3EndState::getPointDisplay() {
+    // Does not need to display anything
     return nullptr;
 }
 

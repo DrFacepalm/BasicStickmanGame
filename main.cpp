@@ -25,11 +25,9 @@ int main(int argc, char *argv[]) {
     sound.play();
 
     // Create testing interface with a separate game state.
-    //auto state_factory = std::unique_ptr<GameStateFactory>(new Stage2GameStateFactory());
-    //Tester tester(state_factory);
-    //tester.run(2048);
-
-    // Create rendered version of the game
+    // auto state_factory = std::unique_ptr<GameStateFactory>(new Stage2GameStateFactory());
+    // Tester tester(state_factory);
+    // tester.run(2048);
 
     // Get stage and create the appropriate version of the game
 
@@ -38,15 +36,12 @@ int main(int argc, char *argv[]) {
     if (Config::config()->getStage() == 1) {
 
     } else if (Config::config()->getStage() == 2) {
-        std::cout << "STAGE2222" << std::endl;
         factory = new Stage2GameFactory();
 
     } else if (Config::config()->getStage() == 3) {
-        std::cout << "stage3??" << std::endl;
         factory = new Stage3GameFactory();
     }
 
-    //GameFactory* factory = new Stage3GameFactory();
 
     StartDialog start_dialog(factory);
     start_dialog.setWindowTitle("Main Menu");

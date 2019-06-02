@@ -10,7 +10,8 @@ Obstacle::Obstacle(Coordinate* position, double width, double height, double vel
       velocity(velocity),
       dist_travelled(0),
       loop_after(loop_after),
-      is_moving(true) {
+      is_moving(true),
+      exploded(false) {
 
     if (width > 0) {
         this->width = width;
@@ -24,6 +25,14 @@ Obstacle::Obstacle(Coordinate* position, double width, double height, double vel
         this->height = 1;
     }
 
+}
+
+RectCollider *Obstacle::getCollider() {
+    if (getExploded()) {
+        return nullptr;
+    } else {
+        return &collider;
+    }
 }
 
 void Obstacle::update(bool paused, double time_since_last_frame) {
@@ -54,21 +63,33 @@ void Obstacle::update(bool paused, double time_since_last_frame) {
 }
 
 void Obstacle::render(QPainter &painter) {
-    QPen pen;
-    pen.setColor(Qt::black);
-    pen.setWidth(2);
-    painter.setPen(pen);
+    if (!getExploded()) {
+        QPen pen;
+        pen.setColor(Qt::black);
+        pen.setWidth(2);
+        painter.setPen(pen);
 
-    QBrush brush(colour);
-    painter.setBrush(brush);
+        QBrush brush(colour);
+        painter.setBrush(brush);
 
-    if (getPosition() != nullptr) {
-        double x = this->getPosition()->getQtRenderingXCoordinate();
-        double y = this->getPosition()->getQtRenderingYCoordinate();
-        painter.drawRect(x - width/2.0, y - height/2.0, width, height);
+        if (getPosition() != nullptr) {
+            double x = this->getPosition()->getQtRenderingXCoordinate();
+            double y = this->getPosition()->getQtRenderingYCoordinate();
+            painter.drawRect(x - width/2.0, y - height/2.0, width, height);
+        }
+
+        renderChildren(painter);
     }
 
-    renderChildren(painter);
 
+}
 
+void Obstacle::setExploded(bool value)
+{
+    exploded = value;
+}
+
+bool Obstacle::getExploded() const
+{
+    return exploded;
 }

@@ -11,12 +11,15 @@ public:
     Obstacle(Coordinate* position, double width, double height, double velocity, double loop_after, QColor colour, std::string name);
     ~Obstacle() override = default;
 
-    virtual RectCollider* getCollider() override { return &collider; }
+    virtual RectCollider *getCollider() override;
 
     virtual void update(bool paused, double time_since_last_frame) override;
     virtual void render(QPainter &painter) override;
 
     bool isMoving() {return is_moving; }
+
+    void setExploded(bool value);
+    bool getExploded() const;
 
 private:
     QColor colour;
@@ -27,5 +30,7 @@ private:
     double dist_travelled;
     double loop_after;
     bool is_moving;
+    bool exploded;
+
 };
 

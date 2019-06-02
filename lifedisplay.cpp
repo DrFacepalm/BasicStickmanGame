@@ -10,7 +10,6 @@ void LifeDisplay::update(bool paused, double time_since_last_frame) {
 }
 
 void LifeDisplay::render(QPainter &painter) {
-    std::cout << "render lives " << lives << std::endl;
     QPen pen;
     pen.setColor(Qt::red);
     painter.setPen(pen);

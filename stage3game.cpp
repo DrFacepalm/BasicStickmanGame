@@ -1,18 +1,13 @@
 #include "stage3game.h"
-#include <QWidget>
 
 Stage3Game::Stage3Game(GameState *state) :
     Stage2Game(state),
     default_move_speed(10)
-{
-    //std::cout << "stage3 construct" << std::endl;
-}
+{}
 
 Stage3Game::~Stage3Game() {}
 
 void Stage3Game::render(QPainter &painter) {
-    //std::cout << "stage3 render" << std::endl;
-    // Do what stage 2 does for render
     if (state->getBackground() != nullptr) {
         state->getBackground()->render(painter, paused || state->getPlayerColliding());
     }
@@ -21,53 +16,43 @@ void Stage3Game::render(QPainter &painter) {
         state->getPlayer()->render(painter);
     }
 
-    // Render all entities stored in the game state
-    std::cout << "state number is: " << state->state_num << std::endl;
-    if (state->state_num != 1) {
-        state->getRootEntity()->render(painter);
-    }
-
+    // Render the point Display IF in the gamestate, not the endstate
     if (state->state_num == 0) {
         Stage3GameState *s3state = static_cast<Stage3GameState *>(state);
         s3state->getPointDisplay()->render(painter, false);
-    }/* else {
-        Stage3GameState *s3state = static_cast<Stage3GameState *>(state);
-        s3state->getPointDisplay()->render(painter, false);
-    }*/
+    }
 
+    // Render all entities stored in the game state IF not in endstate
+    if (state->state_num != 1) {
+        state->getRootEntity()->render(painter);
+    }
 }
 
 void Stage3Game::setState(GameState *s) {
     state = s;
 }
 
-void Stage3Game::handle() {
-    // state->handle();
-    return;
-}
-
 void Stage3Game::keyPressEvent(QKeyEvent *event) {
     // Do what stage 1 does for keyPress
     Stage1Game::keyPressEvent(event);
 
-    // Do Modified Stage2Jump
+    // Do modified Stage2Jump
     if (event->key() == Qt::Key_Space) {
-        // Make stickman jump
-        state->getPlayer()->jump();
-    }
-
-    // Do whatever else you need to do
-    if (event->type()==QEvent::KeyPress) {
-        if (event->key() == Qt::Key_Right) {
-            // Stickman Moves right, i.e. set stickman's velocity to 10 to the right
-
-            Config::config()->getStickman()->changeVelocity(default_move_speed);
-            Config::config()->getStickman()->updateStickman();
-        } else if (event->key() == Qt::Key_Left) {
-            Config::config()->getStickman()->changeVelocity(-default_move_speed);
-            Config::config()->getStickman()->updateStickman();
+        if (state->state_num == 0) {
+            state->getPlayer()->jump();
         }
+
     }
+
+    if (event->key() == Qt::Key_Right) {
+        // Stickman Moves right, i.e. set stickman's velocity to 10 to the right
+        Config::config()->getStickman()->changeVelocity(default_move_speed);
+        Config::config()->getStickman()->updateStickman();
+    } else if (event->key() == Qt::Key_Left) {
+        Config::config()->getStickman()->changeVelocity(-default_move_speed);
+        Config::config()->getStickman()->updateStickman();
+    }
+
 }
 
 void Stage3Game::keyReleaseEvent(QKeyEvent *event)
@@ -81,9 +66,7 @@ void Stage3Game::keyReleaseEvent(QKeyEvent *event)
 }
 
 void Stage3Game::paintEvent(QPaintEvent *event) {
-    //std::cout << "s3 paint event" << std::endl;
     state->update(paused);
-    //std::cout << "s3 paint event" << std::endl;
     QPainter painter(this);
     render(painter);
 }

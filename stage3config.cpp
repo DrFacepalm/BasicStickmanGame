@@ -9,9 +9,7 @@ Stage3Config::Stage3Config(Config &config) :
     current_level = 0;
 }
 
-Stage3Config::~Stage3Config() {
-
-}
+Stage3Config::~Stage3Config() {}
 
 unsigned int Stage3Config::getWorldWidth() {
     return config.getWorldWidth();
@@ -27,7 +25,6 @@ std::vector<ObstacleConfig *> Stage3Config::getObstacleData() {
 
 
 void Stage3Config::setupConfig() {
-   //std::cout << "setupconfig" << std::endl;
     QFile config_file(":config/config.txt");
 
     //Open the config file

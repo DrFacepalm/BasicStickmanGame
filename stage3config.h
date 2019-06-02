@@ -1,8 +1,9 @@
 #pragma once
 
-#include <vector>
 #include "config.h"
 #include "configuration.h"
+
+#include <vector>
 #include <QString>
 #include <QRegularExpression>
 #include <QFile>
@@ -31,6 +32,7 @@ public:
     // sets current level
     void setCurrentLevel(int level);
 
+    // returns lives
     int getLives();
 
 protected:

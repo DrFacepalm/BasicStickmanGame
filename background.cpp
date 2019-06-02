@@ -41,11 +41,9 @@ Background::Background(Coordinate main_coordinate, int type)
 void Background::render(QPainter &painter, bool paused) {
 
     if (type == 1) {
-        std::cout << "RENDER WIN" << std::endl;
         painter.drawPixmap(0, 0, Config::config()->getWorldWidth(), Config::config()->getWorldHeight(), win_screen);
         return;
     } else if (type == 2) {
-        std::cout << "RENDER LOSE" << std::endl;
         painter.drawPixmap(0, 0, Config::config()->getWorldWidth(), Config::config()->getWorldHeight(), lose_screen);
         return;
     }
